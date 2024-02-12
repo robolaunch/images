@@ -3,7 +3,8 @@ on:
   schedule:
   - cron:  '0 3 * * *'
 jobs:
-  prepare:
+  build:
+    name: "Robotics Image Generation"
     runs-on: ubuntu-latest  
     steps:
     - uses: actions/checkout@v3

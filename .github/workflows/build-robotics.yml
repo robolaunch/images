@@ -1,0 +1,39 @@
+name: build-robotics
+on:
+  push:
+    branches:
+      - "1-build-action"
+  # workflow_dispatch:
+  #   inputs:
+  #     config:
+  #       type: string
+  #       default: ""
+  #       required: true
+  #       description: 'Pipeline Config Path (relative)'
+jobs:
+  prepare:
+    runs-on: ubuntu-latest  
+    steps:
+    - uses: actions/checkout@v3
+      with:                                                                                           
+        fetch-depth: 0
+    - name: List Tags
+      run: git tag
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Get Cosmodrome
+      run: |
+        wget https://github.com/robolaunch/cosmodrome/releases/download/v0.1.0-alpha.12/cosmodrome-amd64;
+        chmod +x cosmodrome-amd64;
+        mv cosmodrome-amd64 /usr/local/bin/cosmodrome;
+        cosmodrome --help
+  build:
+    runs-on: ubuntu-latest
+    steps:  
+    - name: Build ROS 2 Iron Image 
+      run: cosmodrome launch --config iron.yaml
+    - name: Build ROS 2 Iron Bridge Image 
+      run: cosmodrome launch --config iron-bridge.yaml

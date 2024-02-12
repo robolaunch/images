@@ -1,15 +1,10 @@
-name: build-custom
-
+name: build-aiml
 on:
-  workflow_dispatch:
-    inputs:
-      config:
-        type: string
-        default: ""
-        required: true
-        description: 'Pipeline Config Path (relative)'
+  schedule:
+  - cron:  '0 4 * * *'
 jobs:
   build:
+    name: "AI/ML Image Generation"
     runs-on: ubuntu-latest  
     steps:
     - uses: actions/checkout@v3
@@ -28,5 +23,12 @@ jobs:
         chmod +x cosmodrome-amd64;
         mv cosmodrome-amd64 /usr/local/bin/cosmodrome;
         cosmodrome --help
-    - name: Build Image
-      run: cosmodrome launch --config ${{ github.event.inputs.config }}
+    
+    - name: Build YOLOv4 Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov4.yaml
+    
+    - name: Build YOLOv5 Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov5.yaml
+  
+    - name: Build YOLOv7 Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov7.yaml

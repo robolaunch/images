@@ -1,0 +1,35 @@
+name: build-aiml
+on:
+  workflow_dispatch:
+  schedule:
+  - cron:  '0 4 * * *'
+jobs:
+  build:
+    name: "AI/ML Image Generation"
+    runs-on: ubuntu-latest  
+    steps:
+    - uses: actions/checkout@v3
+      with:                                                                                           
+        fetch-depth: 0
+    - name: List Tags
+      run: git tag
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Get Cosmodrome
+      run: |
+        wget https://github.com/robolaunch/cosmodrome/releases/download/v0.1.0-alpha.12/cosmodrome-amd64;
+        chmod +x cosmodrome-amd64;
+        mv cosmodrome-amd64 /usr/local/bin/cosmodrome;
+        cosmodrome --help
+    
+    - name: Build YOLOv4 Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov4.yaml
+    
+    - name: Build YOLOv5 Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov5.yaml
+  
+    - name: Build YOLOv7 Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov7.yaml

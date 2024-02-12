@@ -1,0 +1,46 @@
+name: build-robotics
+on:
+  workflow_dispatch:
+  schedule:
+  - cron:  '0 3 * * *'
+jobs:
+  build:
+    name: "Robotics Image Generation"
+    runs-on: ubuntu-latest  
+    steps:
+    - uses: actions/checkout@v3
+      with:                                                                                           
+        fetch-depth: 0
+    - name: List Tags
+      run: git tag
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Get Cosmodrome
+      run: |
+        wget https://github.com/robolaunch/cosmodrome/releases/download/v0.1.0-alpha.12/cosmodrome-amd64;
+        chmod +x cosmodrome-amd64;
+        mv cosmodrome-amd64 /usr/local/bin/cosmodrome;
+        cosmodrome --help
+    
+    - name: Build ROS 2 Iron Image 
+      run: cosmodrome launch --config pipelines/ros2/iron.yaml
+    - name: Build ROS 2 Iron Bridge Image 
+      run: cosmodrome launch --config pipelines/ros2/iron-bridge.yaml
+    
+    - name: Build ROS 2 Humble Image 
+      run: cosmodrome launch --config pipelines/ros2/humble.yaml
+    - name: Build ROS 2 Humble Bridge Image 
+      run: cosmodrome launch --config pipelines/ros2/humble-bridge.yaml
+  
+    - name: Build ROS 2 Galactic Image 
+      run: cosmodrome launch --config pipelines/ros2/galactic.yaml
+    - name: Build ROS 2 Galactic Bridge Image 
+      run: cosmodrome launch --config pipelines/ros2/galactic-bridge.yaml
+
+    - name: Build ROS 2 Foxy Image 
+      run: cosmodrome launch --config pipelines/ros2/foxy.yaml
+    - name: Build ROS 2 Foxy Bridge Image 
+      run: cosmodrome launch --config pipelines/ros2/foxy-bridge.yaml

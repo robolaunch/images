@@ -1,15 +1,7 @@
 name: build-robotics
 on:
-  push:
-    branches:
-      - "1-build-action"
-  # workflow_dispatch:
-  #   inputs:
-  #     config:
-  #       type: string
-  #       default: ""
-  #       required: true
-  #       description: 'Pipeline Config Path (relative)'
+  schedule:
+  - cron:  '0 3 * * *'
 jobs:
   prepare:
     runs-on: ubuntu-latest  

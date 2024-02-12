@@ -1,4 +1,4 @@
-name: build-aiml
+name: build-simulation
 on:
   workflow_dispatch:
   schedule:

@@ -30,10 +30,23 @@ jobs:
         chmod +x cosmodrome-amd64;
         mv cosmodrome-amd64 /usr/local/bin/cosmodrome;
         cosmodrome --help
-  build:
-    runs-on: ubuntu-latest
-    steps:  
+    
     - name: Build ROS 2 Iron Image 
       run: cosmodrome launch --config iron.yaml
     - name: Build ROS 2 Iron Bridge Image 
       run: cosmodrome launch --config iron-bridge.yaml
+    
+    - name: Build ROS 2 Humble Image 
+      run: cosmodrome launch --config humble.yaml
+    - name: Build ROS 2 Humble Bridge Image 
+      run: cosmodrome launch --config humble-bridge.yaml
+  
+    - name: Build ROS 2 Galactic Image 
+      run: cosmodrome launch --config galactic.yaml
+    - name: Build ROS 2 Galactic Bridge Image 
+      run: cosmodrome launch --config galactic-bridge.yaml
+
+    - name: Build ROS 2 Foxy Image 
+      run: cosmodrome launch --config foxy.yaml
+    - name: Build ROS 2 Foxy Bridge Image 
+      run: cosmodrome launch --config foxy-bridge.yaml

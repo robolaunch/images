@@ -1,17 +1,13 @@
 name: build-test
 
 on:
-  push:
-    branches:
-      - "1-build-action"
-
-  # workflow_dispatch:
-  #   inputs:
-  #     config:
-  #       type: string
-  #       default: ""
-  #       required: true
-  #       description: 'Pipeline Config Path (relative)'
+  workflow_dispatch:
+    inputs:
+      config:
+        type: string
+        default: ""
+        required: true
+        description: 'Pipeline Config Path (relative)'
 jobs:
   build:
     runs-on: ubuntu-latest  
@@ -33,4 +29,4 @@ jobs:
         mv cosmodrome-amd64 /usr/local/bin/cosmodrome;
         cosmodrome --help
     - name: Build Image
-      run: cosmodrome launch --config pipelines/ros2/iron-bridge.yaml # ${{ github.event.inputs.config }}
+      run: cosmodrome launch --config ${{ github.event.inputs.config }}

@@ -73,7 +73,7 @@ jobs:
       with:
         name: build-output
         path: |
-          images/out*.txt
+          images/out*
   stop-runner:
     name: Stop self-hosted EC2 runner
     needs:

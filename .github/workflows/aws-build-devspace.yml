@@ -40,7 +40,7 @@ jobs:
     runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
     - name: Clone
-      run: git clone https://$GIT_TOKEN:@github.com/robolaunch/vdi.git
+      run: git clone https://${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}:@github.com/robolaunch/vdi.git
   build-image:
     name: Build Image w/ Cosmodrome
     needs:

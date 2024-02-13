@@ -1,4 +1,4 @@
-name: build-robotics
+name: GitHub - Build Robotics Images
 on:
   workflow_dispatch:
   # schedule:

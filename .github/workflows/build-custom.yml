@@ -1,4 +1,4 @@
-name: build-custom
+name: GitHub - Build Custom Images
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: Build Robotics Images on AWS
+name: AWS - Build Robotics Images
 on:
   workflow_dispatch:
   schedule:

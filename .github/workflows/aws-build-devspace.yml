@@ -39,11 +39,8 @@ jobs:
     needs: start-runner
     runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
-    - uses: de-vri-es/setup-git-credentials@v2
-      with:
-        credentials: ${{ secrets.GIT_CREDENTIALS }}
     - name: Clone
-      run: git clone ${{ secrets.VDI_REPOSITORY_URL }}
+      run: git clone https://$GIT_TOKEN:@github.com/robolaunch/vdi.git
   build-image:
     name: Build Image w/ Cosmodrome
     needs:

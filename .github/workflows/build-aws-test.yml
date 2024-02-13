@@ -25,10 +25,10 @@ jobs:
         with:
           mode: start
           github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          ec2-image-id: ami-0fc5d935ebf8bc3bc
-          ec2-instance-type: t3.nano
-          subnet-id: "subnet-765ec478"
-          security-group-id: "sg-0885fd4610fa77ebb"
+          ec2-image-id: ami-0cf2223995b476458
+          ec2-instance-type: c3.4xlarge
+          subnet-id: "subnet-0087d962ddc3ec73b"
+          security-group-id: "sg-05518589fd7ecd8ce"
           aws-resource-tags: > # optional, requires additional permissions
             [
               {"Key": "Name", "Value": "ec2-github-runner"},
@@ -40,7 +40,7 @@ jobs:
     runs-on: ${{ needs.start-runner.outputs.label }} # run the job on the newly created runner
     steps:
       - name: Hello World
-        run: echo 'Hello World!' && echo 'writing test' > test.txt
+        run: cosmodrome --help && echo 'writing test' > test.txt
   stop-runner:
     name: Stop self-hosted EC2 runner
     needs:

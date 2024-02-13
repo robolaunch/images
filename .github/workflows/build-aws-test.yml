@@ -49,7 +49,17 @@ jobs:
     runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
     - name: Build
-      run: cd images && echo "this is upload test ${{ github.sha }}" > out_546498.txt # && cosmodrome launch --config pipelines/ros2/iron-bridge.yaml
+      if: always()
+      run: cd images && echo "test" # cosmodrome launch --config pipelines/ros2/iron-bridge.yaml
+    - name: Change Dir
+      if: always()
+      run: cd non-existent-folder
+    - name: Change Dir
+      if: always()
+      run: cd another-non-existent
+    - name: Generate artifact
+      if: always()
+      run: cd images && echo "asd" > out_xyz.txt
   upload-output:
     name: Upload Output
     needs:
@@ -59,9 +69,10 @@ jobs:
     runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
     - name: Build
+      if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: dist-without-markdown
+        name: build-output
         path: |
           images/out*.txt
   stop-runner:
@@ -72,7 +83,7 @@ jobs:
     - build-image
     - upload-output
     runs-on: ubuntu-latest
-    if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs
+    if: always() # required to stop the runner even if the error happened in the previous jobs
     steps:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1

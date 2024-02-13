@@ -1,12 +1,8 @@
-name: Build Robotics Images on AWS
-# on:
-#   push:
-#     branches:
-#     - '1-aws-build'
+name: Build AI/ML Images on AWS
 on:
   workflow_dispatch:
   schedule:
-  - cron:  '0 3 * * *'
+  - cron:  '0 4 * * *'
 jobs:
   start-runner:
     name: Start self-hosted EC2 runner
@@ -65,30 +61,15 @@ jobs:
     - login-dockerhub
     runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
-    - name: Build ROS 2 Iron Image
+    - name: Build YOLOv4 Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/iron.yaml
-    - name: Build ROS 2 Iron Bridge Image
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov4.yaml
+    - name: Build YOLOv5 Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/iron-bridge.yaml
-    - name: Build ROS 2 Humble Image
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov5.yaml
+    - name: Build YOLOv7 Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/humble.yaml
-    - name: Build ROS 2 Humble Bridge Image
-      if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/humble-bridge.yaml
-    - name: Build ROS 2 Galactic Image
-      if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/galactic.yaml
-    - name: Build ROS 2 Galactic Bridge Image
-      if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/galactic-bridge.yaml
-    - name: Build ROS 2 Foxy Image
-      if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/foxy.yaml
-    - name: Build ROS 2 Foxy Bridge Image
-      if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/foxy-bridge.yaml
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov7.yaml
   upload-output:
     name: Upload Output
     if: always()

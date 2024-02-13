@@ -1,0 +1,99 @@
+name: AWS - Build Ubuntu Base Images (DevSpace amd64)
+on:
+  workflow_dispatch:
+  schedule:
+  - cron:  '0 1 * * *'
+jobs:
+  start-runner:
+    name: Start self-hosted EC2 runner
+    runs-on: ubuntu-latest
+    outputs:
+      label: ${{ steps.start-ec2-runner.outputs.label }}
+      ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    - name: Start EC2 runner
+      id: start-ec2-runner
+      uses: machulav/ec2-github-runner@v2
+      with:
+        mode: start
+        github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        ec2-image-id: ami-0cf2223995b476458
+        ec2-instance-type: c6i.2xlarge
+        subnet-id: "subnet-0087d962ddc3ec73b"
+        security-group-id: "sg-05518589fd7ecd8ce"
+        aws-resource-tags: >
+          [
+            {"Key": "Name", "Value": "${{ github.repository }}#${{ github.run_number }}-${{ github.run_id }}"},
+            {"Key": "GitHubRepository", "Value": "${{ github.repository }}"},
+            {"Key": "GitHubActionNo", "Value": "${{ github.run_number }}"},
+            {"Key": "GitHubActionID", "Value": "${{ github.run_id }}"}
+          ]
+  clone-repo:
+    name: Clone Images Repository
+    needs: start-runner
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    steps:
+    - name: Clone
+      run: git clone https://github.com/robolaunch/vdi
+  build-image:
+    name: Build Image w/ Cosmodrome
+    needs:
+    - start-runner
+    - clone-repo
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    steps:
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build Ubuntu 20.04 DevSpace Image for amd64
+      if: always()
+      run: cd vdi && cosmodrome launch --config .docker/robolaunch/devspace-focal-amd64.yaml
+    - name: Build Ubuntu 22.04 DevSpace Image for amd64
+      if: always()
+      run: cd vdi && cosmodrome launch --config .docker/robolaunch/devspace-focal-amd64.yaml
+  upload-output:
+    name: Upload Output
+    if: always()
+    needs:
+    - start-runner
+    - clone-repo
+    - build-image
+    runs-on: ${{ needs.start-runner.outputs.label }}
+    steps:
+    - name: Build
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-output
+        path: |
+          images/out*.txt
+  stop-runner:
+    name: Stop self-hosted EC2 runner
+    needs:
+    - start-runner
+    - clone-repo
+    - build-image
+    - upload-output
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+    - name: Stop EC2 runner
+      uses: machulav/ec2-github-runner@v2
+      with:
+        mode: stop
+        github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+        label: ${{ needs.start-runner.outputs.label }}
+        ec2-instance-id: ${{ needs.start-runner.outputs.ec2-instance-id }}

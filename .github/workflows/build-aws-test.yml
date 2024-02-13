@@ -31,7 +31,7 @@ jobs:
         security-group-id: "sg-05518589fd7ecd8ce"
         aws-resource-tags: >
           [
-            {"Key": "Name", "Value": "${{ github.sha }}"},
+            {"Key": "Name", "Value": "${{ github.repository }}#${{ github.run_number }}-${{ github.run_id }}"},
             {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
           ]
   clone-repo:
@@ -62,6 +62,7 @@ jobs:
       run: cd images && echo "asd" > out_xyz.txt
   upload-output:
     name: Upload Output
+    if: always()
     needs:
     - start-runner
     - clone-repo
@@ -69,7 +70,6 @@ jobs:
     runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
     - name: Build
-      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: build-output

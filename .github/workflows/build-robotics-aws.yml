@@ -1,8 +1,12 @@
 name: Build Robotics Images on AWS
 on:
-  workflow_dispatch:
-  schedule:
-  - cron:  '0 3 * * *'
+  push:
+    branches:
+    - '1-aws-build'
+# on:
+#   workflow_dispatch:
+#   schedule:
+#   - cron:  '0 3 * * *'
 jobs:
   start-runner:
     name: Start self-hosted EC2 runner
@@ -24,7 +28,7 @@ jobs:
         mode: start
         github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
         ec2-image-id: ami-0cf2223995b476458
-        ec2-instance-type: t2.2xlarge
+        ec2-instance-type: c6a.2xlarge
         subnet-id: "subnet-0087d962ddc3ec73b"
         security-group-id: "sg-05518589fd7ecd8ce"
         aws-resource-tags: >

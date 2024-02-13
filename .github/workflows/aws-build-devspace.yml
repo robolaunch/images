@@ -2,7 +2,7 @@ name: AWS - Build DevSpace Images (amd64)
 on:
   workflow_dispatch:
   schedule:
-  - cron:  '0 1 * * *'
+  - cron:  '0 3 * * 1,3,6'
 jobs:
   start-runner:
     name: Start self-hosted EC2 runner

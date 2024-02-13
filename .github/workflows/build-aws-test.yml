@@ -34,19 +34,27 @@ jobs:
             {"Key": "Name", "Value": "${{ github.sha }}"},
             {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
           ]
-  build-image:
-    name: Build Image w/ Cosmodrome
+  clone-repo:
+    name: Clone Images Repository
     needs: start-runner # required to start the main job when the runner is ready
     runs-on: ${{ needs.start-runner.outputs.label }} # run the job on the newly created runner
     steps:
     - name: Clone
       run: git clone https://github.com/robolaunch/images
+  build-image:
+    name: Build Image w/ Cosmodrome
+    needs:
+    - start-runner # required to start the main job when the runner is ready
+    - clone-repo # required to start the main job when the runner is ready
+    runs-on: ${{ needs.start-runner.outputs.label }} # run the job on the newly created runner
+    steps:
     - name: Build
-      run: cd cosmodrome && cosmodrome launch --config pipelines/ros2/iron-bridge.yaml
+      run: cd images && cosmodrome launch --config pipelines/ros2/iron-bridge.yaml
   stop-runner:
     name: Stop self-hosted EC2 runner
     needs:
     - start-runner # required to get output from the start-runner job
+    - clone-repo # required to wait when the main job is done
     - build-image # required to wait when the main job is done
     runs-on: ubuntu-latest
     if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs

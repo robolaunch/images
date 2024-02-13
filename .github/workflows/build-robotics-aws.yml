@@ -1,12 +1,12 @@
 name: Build Robotics Images on AWS
-# on:
-#   push:
-#     branches:
-#     - '1-aws-build'
 on:
-  workflow_dispatch:
-  schedule:
-  - cron:  '0 3 * * *'
+  push:
+    branches:
+    - '1-aws-build'
+# on:
+#   workflow_dispatch:
+#   schedule:
+#   - cron:  '0 3 * * *'
 jobs:
   start-runner:
     name: Start self-hosted EC2 runner
@@ -28,7 +28,7 @@ jobs:
         mode: start
         github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
         ec2-image-id: ami-0cf2223995b476458
-        ec2-instance-type: c6a.2xlarge
+        ec2-instance-type: c6i.2xlarge
         subnet-id: "subnet-0087d962ddc3ec73b"
         security-group-id: "sg-05518589fd7ecd8ce"
         aws-resource-tags: >
@@ -45,8 +45,8 @@ jobs:
     steps:
     - name: Clone
       run: git clone https://github.com/robolaunch/images
-  login-dockerhub:
-    name: Login to Docker Hub
+  build-image:
+    name: Build Image w/ Cosmodrome
     needs:
     - start-runner
     - clone-repo
@@ -57,14 +57,6 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-  build-image:
-    name: Build Image w/ Cosmodrome
-    needs:
-    - start-runner
-    - clone-repo
-    - login-dockerhub
-    runs-on: ${{ needs.start-runner.outputs.label }}
-    steps:
     - name: Build ROS 2 Iron Image
       if: always()
       run: cd images && cosmodrome launch --config pipelines/ros2/iron.yaml
@@ -95,7 +87,6 @@ jobs:
     needs:
     - start-runner
     - clone-repo
-    - login-dockerhub
     - build-image
     runs-on: ${{ needs.start-runner.outputs.label }}
     steps:
@@ -110,7 +101,6 @@ jobs:
     needs:
     - start-runner
     - clone-repo
-    - login-dockerhub
     - build-image
     - upload-output
     runs-on: ubuntu-latest

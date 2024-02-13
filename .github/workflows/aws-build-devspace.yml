@@ -1,4 +1,4 @@
-name: AWS - Build Ubuntu Base Images (DevSpace amd64)
+name: AWS - Build DevSpace Images (amd64)
 on:
   workflow_dispatch:
   schedule:

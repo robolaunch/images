@@ -1,12 +1,8 @@
 name: Build Robotics Images on AWS
 on:
-  push:
-    branches:
-    - '1-aws-build'
-# on:
-#   workflow_dispatch:
-#   schedule:
-#   - cron:  '0 3 * * *'
+  workflow_dispatch:
+  schedule:
+  - cron:  '0 3 * * *'
 jobs:
   start-runner:
     name: Start self-hosted EC2 runner

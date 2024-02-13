@@ -1,8 +1,8 @@
 name: build-simulation
 on:
   workflow_dispatch:
-  schedule:
-  - cron:  '0 2 * * *'
+  # schedule:
+  # - cron:  '0 2 * * *'
 jobs:
   build:
     name: "Simulation Image Generation"

@@ -1,4 +1,4 @@
-name: pytorch-focal
+name: pytorch-jammy
 registry: docker.io
 organization: robolaunchio
 version: 0.2.6-alpha.19
@@ -6,10 +6,10 @@ steps:
 - name: pytorch
   image:
     repository: devspace-aiml
-    tag: pytorch-2.2.0-focal-xfce
+    tag: pytorch-2.2.0-jammy-xfce
   path: "dockerfiles/aiml"
   dockerfile: "Dockerfile.pytorch"
   buildArgs:
-    "BASE_IMAGE": "robolaunchio/devspace:focal-cuda-12.0.0-cudnn-xfce-amd64-0.2.6-alpha.19"
+    "BASE_IMAGE": "robolaunchio/devspace:jammy-cuda-12.0.0-cudnn-xfce-amd64-0.2.6-alpha.19"
     "PYTORCH_VERSION": "2.2.0"
   push: false

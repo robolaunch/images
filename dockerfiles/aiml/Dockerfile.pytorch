@@ -1,6 +1,8 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE} as build
 ARG PYTORCH_VERSION
-RUN pip3 install torch==${PYTORCH_VERSION} torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+RUN set -eux; \
+    pip3 install networkx==3.1; \
+    pip3 install torch==${PYTORCH_VERSION} torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 WORKDIR /home/robolaunch
 USER root

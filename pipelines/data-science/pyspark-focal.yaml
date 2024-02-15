@@ -1,4 +1,4 @@
-name: pyspark
+name: pyspark-focal
 registry: docker.io
 organization: robolaunchio
 version: 0.2.6-alpha.19
@@ -6,10 +6,10 @@ steps:
 - name: pyspark
   image:
     repository: devspace-data-science
-    tag: pyspark-3.5.0-jammy-xfce
+    tag: pyspark-3.5.0-focal-xfce
   path: "dockerfiles/data-science"
   dockerfile: "Dockerfile.pyspark"
   buildArgs:
-    "BASE_IMAGE": "robolaunchio/devspace:jammy-xfce-0.2.6-alpha.19"
+    "BASE_IMAGE": "robolaunchio/devspace:focal-xfce-0.2.6-alpha.19"
     "PYSPARK_VERSION": "3.5.0"
   push: false

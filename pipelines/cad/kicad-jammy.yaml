@@ -1,0 +1,15 @@
+name: kicad-jammy
+registry: docker.io
+organization: robolaunchio
+version: 0.2.6-alpha.19
+steps:
+- name: kicad
+  image:
+    repository: devspace-cad
+    tag: kicad-6.0.2+dfsg-1-jammy-xfce
+  path: "dockerfiles/cad"
+  dockerfile: "Dockerfile.kicad"
+  buildArgs:
+    "BASE_IMAGE": "robolaunchio/devspace:jammy-xfce-0.2.6-alpha.19"
+    "KICAD_VERSION": "6.0.2+dfsg-1"
+  push: false

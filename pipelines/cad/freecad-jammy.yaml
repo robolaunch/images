@@ -1,15 +1,15 @@
-name: blender
+name: freecad-focal
 registry: docker.io
 organization: robolaunchio
 version: 0.2.6-alpha.19
 steps:
-- name: blender
+- name: freecad
   image:
     repository: devspace-cad
-    tag: blender-2.82.a+dfsg-1-focal-xfce
+    tag: freecad-0.18.4+dfsg2-1ubuntu4-focal-xfce
   path: "dockerfiles/cad"
-  dockerfile: "Dockerfile.blender"
+  dockerfile: "Dockerfile.freecad"
   buildArgs:
     "BASE_IMAGE": "robolaunchio/devspace:focal-xfce-0.2.6-alpha.19"
-    "BLENDER_VERSION": "2.82.a+dfsg-1"
+    "FREECAD_VERSION": "0.18.4+dfsg2-1ubuntu4"
   push: false

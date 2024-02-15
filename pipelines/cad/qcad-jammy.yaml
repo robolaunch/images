@@ -1,0 +1,16 @@
+name: qcad-jammy
+registry: docker.io
+organization: robolaunchio
+version: 0.2.6-alpha.19
+steps:
+- name: qcad
+  image:
+    repository: devspace-cad
+    tag: qcad-3.29.4-trial-linux-x86_64-jammy-xfce
+  path: "."
+  context: "dockerfiles/cad/qcad"
+  dockerfile: "Dockerfile.qcad"
+  buildArgs:
+    "BASE_IMAGE": "robolaunchio/devspace:jammy-xfce-0.2.6-alpha.19"
+    "QCAD_VERSION": "3.29.4-trial-linux-x86_64"
+  push: false

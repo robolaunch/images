@@ -7,5 +7,5 @@ USER robolaunch
 WORKDIR /home/robolaunch
 RUN wget https://download.knime.org/analytics-platform/linux/knime_${KNIME_VERSION}.tar.gz
 RUN tar xvfz knime_${KNIME_VERSION}.tar.gz
-WORKDIR /home/robolaunch/knime-${KNIME_VERSION_SHORT}
+WORKDIR /home/robolaunch
 USER root

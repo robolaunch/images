@@ -1,0 +1,16 @@
+name: knime-jammy
+registry: docker.io
+organization: robolaunchio
+version: 0.2.6-alpha.19
+steps:
+- name: knime
+  image:
+    repository: devspace-data-science
+    tag: knime-5.2.0.linux.gtk.x86_64-jammy-xfce
+  path: "dockerfiles/data-science"
+  dockerfile: "Dockerfile.knime"
+  buildArgs:
+    "BASE_IMAGE": "robolaunchio/devspace:jammy-xfce-0.2.6-alpha.19"
+    "KNIME_VERSION": "5.2.0.linux.gtk.x86_64"
+    "KNIME_VERSION_SHORT": "5.2.0"
+  push: false

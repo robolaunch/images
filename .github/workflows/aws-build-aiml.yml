@@ -53,15 +53,30 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build YOLOv4 Image
+    - name: Build PyTorch Focal Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov4.yaml
-    - name: Build YOLOv5 Image
+      run: cd images && cosmodrome launch --config pipelines/aiml/pytorch-focal.yaml
+    - name: Build YOLOv4 Focal Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov5.yaml
-    - name: Build YOLOv7 Image
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov4-focal.yaml
+    - name: Build YOLOv5 Focal Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov7.yaml
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov5-focal.yaml
+    - name: Build YOLOv7 Focal Image
+      if: always()
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov7-focal.yaml
+    - name: Build PyTorch Jammy Image
+      if: always()
+      run: cd images && cosmodrome launch --config pipelines/aiml/pytorch-jammy.yaml
+    - name: Build YOLOv4 Jammy Image
+      if: always()
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov4-jammy.yaml
+    - name: Build YOLOv5 Jammy Image
+      if: always()
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov5-jammy.yaml
+    - name: Build YOLOv7 Jammy Image
+      if: always()
+      run: cd images && cosmodrome launch --config pipelines/aiml/yolov7-jammy.yaml
   upload-output:
     name: Upload Output
     if: always()

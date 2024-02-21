@@ -17,6 +17,5 @@ RUN git clone -b ${YOLOV8_VERSION} https://github.com/ultralytics/ultralytics
 WORKDIR ${REPOSITORY_PATH}/yolov8/ultralytics
 RUN set -eux; \
     pip3 install ultralytics; \
-    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118; \
-    pip3 install -U -r requirements.txt
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 WORKDIR /home/robolaunch

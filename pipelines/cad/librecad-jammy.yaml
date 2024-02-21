@@ -1,0 +1,15 @@
+name: librecad-jammy
+registry: docker.io
+organization: robolaunchio
+version: 0.2.6-alpha.19
+steps:
+- name: librecad
+  image:
+    repository: devspace-cad
+    tag: librecad-2.1.3-3-jammy-xfce
+  path: "dockerfiles/cad"
+  dockerfile: "Dockerfile.librecad"
+  buildArgs:
+    "BASE_IMAGE": "robolaunchio/devspace:jammy-xfce-0.2.6-alpha.19"
+    "LIBRECAD_VERSION": "2.1.3-3"
+  push: false

@@ -24,12 +24,27 @@ jobs:
         chmod +x cosmodrome-amd64;
         mv cosmodrome-amd64 /usr/local/bin/cosmodrome;
         cosmodrome --help
+
+    - name: Build PyTorch Jammy Image 
+      run: cosmodrome launch --config pipelines/aiml/pytorch-jammy.yaml
+
+    - name: Build YOLOv4 Jammy Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov4-jammy.yaml
     
-    - name: Build YOLOv4 Image 
-      run: cosmodrome launch --config pipelines/aiml/yolov4.yaml
-    
-    - name: Build YOLOv5 Image 
-      run: cosmodrome launch --config pipelines/aiml/yolov5.yaml
+    - name: Build YOLOv5 Jammy Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov5-jammy.yaml
   
-    - name: Build YOLOv7 Image 
-      run: cosmodrome launch --config pipelines/aiml/yolov7.yaml
+    - name: Build YOLOv7 Jammy Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov7-jammy.yaml
+
+    - name: Build PyTorch Focal Image 
+      run: cosmodrome launch --config pipelines/aiml/pytorch-focal.yaml
+
+    - name: Build YOLOv4 Focal Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov4-focal.yaml
+    
+    - name: Build YOLOv5 Focal Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov5-focal.yaml
+  
+    - name: Build YOLOv7 Focal Image 
+      run: cosmodrome launch --config pipelines/aiml/yolov7-focal.yaml

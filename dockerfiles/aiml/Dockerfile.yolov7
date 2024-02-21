@@ -16,5 +16,7 @@ WORKDIR ${REPOSITORY_PATH}/yolov7
 RUN git clone -b ${YOLOV7_VERSION} https://github.com/WongKinYiu/yolov7.git
 WORKDIR ${REPOSITORY_PATH}/yolov7/yolov7
 RUN set -eux; \
+    pip3 install networkx==3.1; \
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118; \
     pip3 install -U -r requirements.txt
 WORKDIR /home/robolaunch

@@ -22,4 +22,4 @@ steps:
   dockerfile: "Dockerfile.yolov7"
   buildArgs:
     "YOLOV7_VERSION": "main"
-  push: false
+  push: true

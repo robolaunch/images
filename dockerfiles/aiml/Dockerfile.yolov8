@@ -1,0 +1,22 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE} as build
+ARG YOLOV8_VERSION
+ARG REPOSITORY_PATH="/opt/repositories"
+USER root
+ENV os=ubuntu2004
+ENV cuda_version_dashed=12-0
+ENV cudnn_version=8.8.1.3-1+cuda12.0
+ENV PATH=$PATH:/usr/local/cuda-12.0/bin:/home/robolaunch/.local/bin
+RUN echo 'export PATH=$PATH/usr/local/cuda-12.0/bin:/home/robolaunch/.local/bin' >> ~/.bashrc
+RUN set -eux; \
+    apt-get update && \
+    apt-mark hold libcudnn8 libcudnn8-dev
+RUN mkdir -p ${REPOSITORY_PATH}/yolov8
+WORKDIR ${REPOSITORY_PATH}/yolov8
+RUN git clone -b ${YOLOV8_VERSION} https://github.com/ultralytics/ultralytics
+WORKDIR ${REPOSITORY_PATH}/yolov8/ultralytics
+RUN set -eux; \
+    pip3 install ultralytics; \
+    pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118; \
+    pip3 install -U -r requirements.txt
+WORKDIR /home/robolaunch

@@ -59,7 +59,7 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Build YOLOv4 Image
+    - name: Build Custom Image
       if: always()
       run: cd images && cosmodrome launch --config ${{ github.event.inputs.config }}
   upload-output:

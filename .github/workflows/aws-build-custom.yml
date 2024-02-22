@@ -13,8 +13,6 @@ jobs:
   start-runner:
     name: Start self-hosted EC2 runner
     runs-on: ubuntu-latest
-    env:
-      REGISTRY_PAT: ${{ secrets.REGISTRY_PAT }}
     outputs:
       label: ${{ steps.start-ec2-runner.outputs.label }}
       ec2-instance-id: ${{ steps.start-ec2-runner.outputs.ec2-instance-id }}
@@ -63,7 +61,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build Custom Image
       if: always()
-      run: cd images && cosmodrome launch --config ${{ github.event.inputs.config }}
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && docker login -u robolaunchio -p $REGISTRY_PAT # cosmodrome launch --config ${{ github.event.inputs.config }}
   upload-output:
     name: Upload Output
     if: always()

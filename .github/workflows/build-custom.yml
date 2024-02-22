@@ -29,4 +29,4 @@ jobs:
         mv cosmodrome-amd64 /usr/local/bin/cosmodrome;
         cosmodrome --help
     - name: Build Image
-      run: cosmodrome launch --config ${{ github.event.inputs.config }}
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cosmodrome launch --config ${{ github.event.inputs.config }}

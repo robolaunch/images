@@ -55,28 +55,28 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build ROS 2 Iron Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/iron.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/ros2/iron.yaml
     - name: Build ROS 2 Iron Bridge Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/iron-bridge.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/ros2/iron-bridge.yaml
     - name: Build ROS 2 Humble Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/humble.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/ros2/humble.yaml
     - name: Build ROS 2 Humble Bridge Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/humble-bridge.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/ros2/humble-bridge.yaml
     - name: Build ROS 2 Galactic Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/galactic.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/ros2/galactic.yaml
     - name: Build ROS 2 Galactic Bridge Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/galactic-bridge.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/ros2/galactic-bridge.yaml
     - name: Build ROS 2 Foxy Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/foxy.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/ros2/foxy.yaml
     - name: Build ROS 2 Foxy Bridge Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/ros2/foxy-bridge.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/ros2/foxy-bridge.yaml
   upload-output:
     name: Upload Output
     if: always()

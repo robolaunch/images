@@ -55,10 +55,10 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build CARLA Image 
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/simulation/carla.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/simulation/carla.yaml
     - name: Build Unity (hub) Image 
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/simulation/unity3d.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/simulation/unity3d.yaml
   upload-output:
     name: Upload Output
     if: always()

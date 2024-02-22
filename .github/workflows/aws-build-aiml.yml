@@ -55,28 +55,28 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build PyTorch Focal Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/pytorch-focal.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/aiml/pytorch-focal.yaml
     - name: Build YOLOv4 Focal Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov4-focal.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/aiml/yolov4-focal.yaml
     - name: Build YOLOv5 Focal Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov5-focal.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/aiml/yolov5-focal.yaml
     - name: Build YOLOv7 Focal Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov7-focal.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/aiml/yolov7-focal.yaml
     - name: Build PyTorch Jammy Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/pytorch-jammy.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/aiml/pytorch-jammy.yaml
     - name: Build YOLOv4 Jammy Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov4-jammy.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/aiml/yolov4-jammy.yaml
     - name: Build YOLOv5 Jammy Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov5-jammy.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/aiml/yolov5-jammy.yaml
     - name: Build YOLOv7 Jammy Image
       if: always()
-      run: cd images && cosmodrome launch --config pipelines/aiml/yolov7-jammy.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd images && cosmodrome launch --config pipelines/aiml/yolov7-jammy.yaml
   upload-output:
     name: Upload Output
     if: always()

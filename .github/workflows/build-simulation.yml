@@ -26,7 +26,7 @@ jobs:
         cosmodrome --help
     
     - name: Build CARLA Image 
-      run: cosmodrome launch --config pipelines/simulation/carla.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cosmodrome launch --config pipelines/simulation/carla.yaml
     
     - name: Build Unity (hub) Image 
-      run: cosmodrome launch --config pipelines/simulation/unity3d.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cosmodrome launch --config pipelines/simulation/unity3d.yaml

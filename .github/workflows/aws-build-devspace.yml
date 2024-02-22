@@ -55,10 +55,10 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build Ubuntu 20.04 DevSpace Image for amd64
       if: always()
-      run: cd vdi && cosmodrome launch --config .docker/robolaunch/devspace-focal-amd64.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd vdi && cosmodrome launch --config .docker/robolaunch/devspace-focal-amd64.yaml
     - name: Build Ubuntu 22.04 DevSpace Image for amd64
       if: always()
-      run: cd vdi && cosmodrome launch --config .docker/robolaunch/devspace-focal-amd64.yaml
+      run: export REGISTRY_PAT=${{ secrets.REGISTRY_PAT }} && cd vdi && cosmodrome launch --config .docker/robolaunch/devspace-focal-amd64.yaml
   upload-output:
     name: Upload Output
     if: always()

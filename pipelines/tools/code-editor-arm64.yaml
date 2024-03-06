@@ -1,0 +1,16 @@
+name: code-editor
+registry: docker.io
+organization: robolaunchio
+version: 0.2.6-alpha.19
+steps:
+- name: code-editor
+  image:
+    repository: code-editor
+    tag: "4.22.0-arm64"
+  path: "."
+  context: "./dockerfiles/tools/code-editor"
+  dockerfile: "Dockerfile"
+  buildArgs: 
+    "BASE_IMAGE": "ubuntu:jammy"
+    "CODE_SERVER_VERSION": "4.22.0"
+  push: true

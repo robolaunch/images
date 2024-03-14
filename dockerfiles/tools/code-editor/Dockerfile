@@ -16,7 +16,7 @@ RUN set -eux; \
     useradd --uid $USER_UID --gid $USERNAME --shell /bin/bash --create-home $USERNAME; \
     chown -R $USERNAME:$USERNAME /home/$USERNAME
 
-RUN apt-get update && apt-get install -y curl git python3 python3-pip
+RUN apt-get update && apt-get install -y curl git python3 python3-pip supervisor
 RUN curl -fsSL https://code-server.dev/install.sh | sh -s -- --version=${CODE_SERVER_VERSION}
 
 ARG FILEBROWSER_CONFIG_PATH=/etc/robolaunch/filebrowser

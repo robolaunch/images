@@ -46,3 +46,5 @@ RUN chmod 1777 \
         ${FILEBROWSER_CONFIG_PATH}/filebrowser-config/
 
 COPY ./services/ /etc/robolaunch/services/
+
+WORKDIR /home/robolaunch

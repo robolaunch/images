@@ -7,10 +7,12 @@ steps:
   image:
     repository: edge-proxy
     tag: 1.7.4.1-3ubuntu4
-  path: "."
-  context: "./dockerfiles/tools/edge-proxy"
+  path: "./dockerfiles/tools/edge-proxy"
   dockerfile: "Dockerfile"
   buildArgs:
     "BASE_IMAGE": "ubuntu:jammy"
     "SOCAT_VERSION": "1.7.4.1-3ubuntu4"
+  platforms:
+  - "linux/amd64"
+  - "linux/arm64"
   push: true

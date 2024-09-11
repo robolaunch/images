@@ -1,0 +1,17 @@
+name: nvidia-omniverse-jammy
+registry: docker.io
+organization: robolaunchio
+version: 0.1.0-beta.02
+steps:
+- name: nvidia-omniverse
+  image:
+    repository: devspace-platform
+    tag: nvidia-omniverse-1.9.13-jammy-xfce-amd64
+  context: dockerfiles/platform
+  path: "."
+  dockerfile: "Dockerfile.nvidia-omniverse"
+  buildArgs:
+    "BASE_IMAGE": "robolaunchio/devspace:plain-0.1.0-jammy-xfce-amd64-cuda-12.2.2-0.1.0-beta.02"
+    "NVIDIA_OMNIVERSE_LAUNCHER_VERSION": "1.9.13"
+    "NVIDIA_OMNIVERSE_LAUNCHER_PATH": "."
+  push: true

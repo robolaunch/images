@@ -1,0 +1,40 @@
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE} as build
+ARG NVIDIA_OMNIVERSE_LAUNCHER_VERSION
+ARG REPOSITORY_PATH="/opt/repositories"
+ARG NVIDIA_OMNIVERSE_LAUNCHER_PATH
+USER root
+RUN echo 'export PATH=$PATH:/home/robolaunch/.local/bin' >> ~/.bashrc
+RUN mkdir -p ${REPOSITORY_PATH}/nvidia-omniverse-launcher /home/robolaunch/.local/share/applications /home/robolaunch/.config/xfce4/panel/launcher-21
+
+WORKDIR ${REPOSITORY_PATH}/nvidia-omniverse-launcher
+COPY ${NVIDIA_OMNIVERSE_LAUNCHER_PATH}/omniverse-launcher-linux.AppImage .
+COPY ${NVIDIA_OMNIVERSE_LAUNCHER_PATH}/applications.tar.gz /home/robolaunch/.local/share/
+# COPY ${NVIDIA_OMNIVERSE_LAUNCHER_PATH}/launcher-21 /home/robolaunch/.config/xfce4/panel/launcher-21
+
+# extract tar.gz
+WORKDIR /home/robolaunch/.local/share/
+RUN set -eux; \
+    tar -xvzf applications.tar.gz
+
+WORKDIR ${REPOSITORY_PATH}/nvidia-omniverse-launcher
+
+# install dependencies
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y wget xdg-utils fuse gnome-terminal fonts-liberation
+
+# install chrome
+RUN set -eux; \
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb; \
+    dpkg -i google-chrome-stable_current_amd64.deb
+
+# install & configure NVIDIA Omniverse Launcher
+RUN set -eux; \
+    chmod +x omniverse-launcher-linux.AppImage; \
+    ./omniverse-launcher-linux.AppImage --appimage-extract; \
+    update-desktop-database /home/robolaunch/.local/share/applications/; \
+    xdg-mime default nvidia-omniverse-launcher.desktop x-scheme-handler/omniverse-launcher; \
+    chmod -w /home/robolaunch/.local/share/applications/nvidia-omniverse-launcher.desktop   
+
+WORKDIR /home/robolaunch
